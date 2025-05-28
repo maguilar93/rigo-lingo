@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "934774705259",
+    "project_id": "rigolingo-f87f2",
+    "storage_bucket": "rigolingo-f87f2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934774705259:android:43f88da2e830373760752e",
+        "android_client_info": {
+          "package_name": "com.example.rigolingo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD982VYAx2z7JAWI1W2XmEbJ9cirwHY9q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
