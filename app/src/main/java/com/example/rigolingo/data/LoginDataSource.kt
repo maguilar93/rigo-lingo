@@ -41,7 +41,6 @@ class LoginDataSource {
             val firebaseUser = authResult.user
             
             return if (firebaseUser != null) {
-                // Update the user's display name
                 val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
                     .setDisplayName(displayName)
                     .build()

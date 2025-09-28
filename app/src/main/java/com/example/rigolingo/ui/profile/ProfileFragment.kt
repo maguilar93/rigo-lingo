@@ -44,13 +44,11 @@ class ProfileFragment : Fragment() {
             binding.profileNameDisplay.text = currentUser.displayName
             binding.profileEmailDisplay.text = getUserEmail()
             
-            // Set action bar title
             (activity as? androidx.appcompat.app.AppCompatActivity)?.supportActionBar?.title = "Profile Settings"
         }
     }
     
     private fun getUserEmail(): String {
-        // Get actual email from Firebase Auth
         return FirebaseAuth.getInstance().currentUser?.email ?: "user@rigolingo.com"
     }
     
@@ -74,7 +72,6 @@ class ProfileFragment : Fragment() {
         val languageCodes = arrayOf("en", "fr", "es")
         val currentLanguage = getCurrentLanguage()
         
-        // Set current selection
         val currentIndex = languageCodes.indexOf(currentLanguage)
         if (currentIndex != -1) {
             binding.languageSelection.text = languages[currentIndex]
@@ -180,21 +177,18 @@ class ProfileFragment : Fragment() {
     }
     
     private fun changeLanguage(languageCode: String) {
-        // Save language preference
         val sharedPref = requireActivity().getSharedPreferences("app_settings", android.content.Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("language", languageCode)
             apply()
         }
         
-        // Apply language change
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val config = requireContext().resources.configuration
         config.setLocale(locale)
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
         
-        // Restart activity to apply language change
         requireActivity().recreate()
     }
 

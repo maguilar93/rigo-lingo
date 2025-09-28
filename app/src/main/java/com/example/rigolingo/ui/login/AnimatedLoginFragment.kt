@@ -29,26 +29,21 @@ class AnimatedLoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val animationView: LottieAnimationView = view.findViewById(R.id.lottie_animation_view)
         
-        // Check if user is already logged in
         if (loginRepository.isLoggedIn) {
-            // User is already logged in, navigate to home
             findNavController().navigate(
                 R.id.action_animatedLoginFragment_to_homeFragment
             )
             return
         }
         
-        // Start animation and navigate to login form after delay
         animationView.playAnimation()
         
-        // Add click listener to skip animation
         view.setOnClickListener {
             navigateToLogin()
         }
         
-        // Navigate to login form after animation completes or timeout
         viewLifecycleOwner.lifecycleScope.launch {
-            delay(3000) // 3 seconds delay
+            delay(3000)
             if (isAdded) {
                 navigateToLogin()
             }
@@ -61,7 +56,7 @@ class AnimatedLoginFragment : Fragment() {
                 R.id.action_animatedLoginFragment_to_loginFragment
             )
         } catch (e: Exception) {
-            // Handle navigation exception gracefully
+            // TODO: Handle navigation exception gracefully
         }
     }
 }

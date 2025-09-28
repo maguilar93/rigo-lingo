@@ -44,10 +44,8 @@ class HomeFragment : Fragment() {
         val currentUser = loginRepository.user
         if (currentUser != null) {
             binding.welcomeText.text = "Ready to continue learning?"
-            // Set the action bar title after navigation is complete
             (activity as? AppCompatActivity)?.supportActionBar?.title = "Welcome, ${currentUser.displayName}!"
             
-            // Setup profile section
             setupProfileInfo(currentUser.displayName, getUserEmail())
         } else {
             binding.welcomeText.text = "Ready to continue learning?"
@@ -57,10 +55,10 @@ class HomeFragment : Fragment() {
     }
     
     private fun setupProfileInfo(displayName: String, email: String) {
-        // Set profile information
+        // TODO: Set profile information
         binding.profileDisplayName.text = displayName
         binding.profileEmail.text = email
-        binding.profileJoinDate.text = "Joined Sept 2025" // In a real app, this would be dynamic
+        binding.profileJoinDate.text = "Joined Sept 2025" 
     }
     
     private fun getInitials(displayName: String): String {
@@ -103,7 +101,6 @@ class HomeFragment : Fragment() {
     
     private fun logout() {
         loginRepository.logout()
-        // Navigate back to animated login
         findNavController().navigate(
             R.id.action_homeFragment_to_animatedLoginFragment
         )

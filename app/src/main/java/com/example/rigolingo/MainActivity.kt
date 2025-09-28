@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize Firebase
         FirebaseApp.initializeApp(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Only add avatar when we're on the home screen and have user data
         try {
             val navController = findNavController(R.id.nav_host_fragment_content_main)
             if (navController.currentDestination?.id == R.id.homeFragment) {
@@ -45,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         } catch (e: Exception) {
-            // Fallback to default menu if avatar creation fails
             menuInflater.inflate(R.menu.menu_main, menu)
         }
         return true
@@ -65,17 +62,14 @@ class MainActivity : AppCompatActivity() {
         try {
             val avatarItem = menu.add(0, 999, 0, "Profile")
             
-            // Create a circular avatar view
             val avatarView = createAvatarView(user.displayName ?: "User")
             avatarItem.setActionView(avatarView)
             avatarItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
             
             avatarView?.setOnClickListener {
-                // Handle avatar click - show profile options
                 showProfileMenu(it)
             }
-        } catch (e: Exception) {
-            // If avatar creation fails, fall back to regular menu
+        } catch (e: Exception) {   
             menuInflater.inflate(R.menu.menu_main, menu)
         }
     }
@@ -152,7 +146,6 @@ class MainActivity : AppCompatActivity() {
             
             popupMenu.show()
         } catch (e: Exception) {
-            // Fallback to simple logout
             logout()
         }
     }
@@ -162,14 +155,12 @@ class MainActivity : AppCompatActivity() {
         val loginRepository = com.example.rigolingo.data.LoginRepository(loginDataSource)
         loginRepository.logout()
         
-        // Navigate back to login
         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.animatedLoginFragment)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            999 -> { // Avatar item
-                // This is handled by the click listener on the avatar view
+            999 -> {
                 true
             }
             else -> super.onOptionsItemSelected(item)

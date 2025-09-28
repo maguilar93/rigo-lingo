@@ -6,7 +6,6 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.core.widget.doAfterTextChanged
 import com.example.rigolingo.databinding.FragmentLoginBinding
 import androidx.appcompat.app.AlertDialog
 
@@ -26,8 +26,6 @@ class LoginFragment : Fragment() {
     private lateinit var loginViewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -83,24 +81,19 @@ class LoginFragment : Fragment() {
                 }
             })
 
-        val afterTextChangedListener = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // ignore
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                // ignore
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                loginViewModel.loginDataChanged(
-                    usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
-                )
-            }
+        usernameEditText.doAfterTextChanged {
+            loginViewModel.loginDataChanged(
+                usernameEditText.text.toString(),
+                passwordEditText.text.toString()
+            )
         }
-        usernameEditText.addTextChangedListener(afterTextChangedListener)
-        passwordEditText.addTextChangedListener(afterTextChangedListener)
+        
+        passwordEditText.doAfterTextChanged {
+            loginViewModel.loginDataChanged(
+                usernameEditText.text.toString(),
+                passwordEditText.text.toString()
+            )
+        }
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(
@@ -159,7 +152,6 @@ class LoginFragment : Fragment() {
                 val password = passwordEditText.text.toString()
                 val displayName = displayNameEditText.text.toString()
                 
-                // Basic validation
                 when {
                     email.isBlank() -> Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
                     !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> Toast.makeText(context, "Please enter valid email", Toast.LENGTH_SHORT).show()

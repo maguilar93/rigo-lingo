@@ -28,7 +28,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
                     _loginResult.value =
                         LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
                 } else if (result is Result.Error) {
-                    // Use the specific error message from Firebase
                     _loginResult.value = LoginResult(errorMessage = result.exception.message ?: "Login failed")
                 }
             } catch (e: Exception) {
@@ -64,7 +63,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder username validation check
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains("@")) {
             Patterns.EMAIL_ADDRESS.matcher(username).matches()
@@ -73,7 +71,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
