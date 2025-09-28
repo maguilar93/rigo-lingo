@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
         val loginRepository = com.example.rigolingo.data.LoginRepository(loginDataSource)
         loginRepository.logout()
         
-        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.animatedLoginFragment)
+        findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_homeFragment_to_animatedLoginFragment)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
