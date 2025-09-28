@@ -66,4 +66,7 @@
     <string name="error_current_password_empty">Por favor ingrese su contraseña actual</string>
     <string name="error_password_too_short">La contraseña debe tener al menos 6 caracteres</string>
     <string name="error_passwords_dont_match">Las contraseñas no coinciden</string>
+    <string name="error_password_change_failed">Error al cambiar la contraseña. Intente nuevamente.</string>
+    <string name="error_current_password_incorrect">La contraseña actual es incorrecta</string>
+    <string name="error_user_not_authenticated">El usuario no está autenticado</string>
 </resources>

@@ -102,4 +102,7 @@
     <string name="error_current_password_empty">Please enter your current password</string>
     <string name="error_password_too_short">Password must be at least 6 characters</string>
     <string name="error_passwords_dont_match">Passwords do not match</string>
+    <string name="error_password_change_failed">Failed to change password. Please try again.</string>
+    <string name="error_current_password_incorrect">Current password is incorrect</string>
+    <string name="error_user_not_authenticated">User is not authenticated</string>
 </resources>

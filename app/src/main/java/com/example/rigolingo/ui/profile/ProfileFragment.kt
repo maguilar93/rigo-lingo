@@ -167,8 +167,27 @@ class ProfileFragment : Fragment() {
     }
     
     private fun changePassword(currentPassword: String, newPassword: String) {
-        // TODO: Implement Firebase Auth password change
-        Snackbar.make(binding.root, getString(R.string.success_password_changed), Snackbar.LENGTH_SHORT).show()
+        val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (user != null && user.email != null) {
+            val credential = com.google.firebase.auth.EmailAuthProvider.getCredential(user.email!!, currentPassword)
+            user.reauthenticate(credential)
+                .addOnCompleteListener { authTask ->
+                    if (authTask.isSuccessful) {
+                        user.updatePassword(newPassword)
+                            .addOnCompleteListener { updateTask ->
+                                if (updateTask.isSuccessful) {
+                                    Snackbar.make(binding.root, getString(R.string.success_password_changed), Snackbar.LENGTH_SHORT).show()
+                                } else {
+                                    Snackbar.make(binding.root, getString(R.string.error_password_change_failed), Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+                    } else {
+                        Snackbar.make(binding.root, getString(R.string.error_current_password_incorrect), Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+        } else {
+            Snackbar.make(binding.root, getString(R.string.error_user_not_authenticated), Snackbar.LENGTH_SHORT).show()
+        }
     }
     
     private fun getCurrentLanguage(): String {
