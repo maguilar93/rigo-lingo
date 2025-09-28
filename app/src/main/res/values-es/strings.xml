@@ -69,4 +69,6 @@
     <string name="error_password_change_failed">Error al cambiar la contraseña. Intente nuevamente.</string>
     <string name="error_current_password_incorrect">La contraseña actual es incorrecta</string>
     <string name="error_user_not_authenticated">El usuario no está autenticado</string>
+    <string name="error_name_update_failed">Error al actualizar el nombre para mostrar. Intente nuevamente.</string>
+    <string name="error_user_not_logged_in">El usuario no ha iniciado sesión</string>
 </resources>

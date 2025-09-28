@@ -143,9 +143,23 @@ class ProfileFragment : Fragment() {
     }
     
     private fun updateDisplayName(newName: String) {
-        // TODO: Update in Firebase Auth and local storage
-        binding.profileNameDisplay.text = newName
-        Snackbar.make(binding.root, getString(R.string.success_name_updated), Snackbar.LENGTH_SHORT).show()
+        val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                .setDisplayName(newName)
+                .build()
+            user.updateProfile(profileUpdates)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        binding.profileNameDisplay.text = newName
+                        Snackbar.make(binding.root, getString(R.string.success_name_updated), Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        Snackbar.make(binding.root, getString(R.string.error_name_update_failed), Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+        } else {
+            Snackbar.make(binding.root, getString(R.string.error_user_not_logged_in), Snackbar.LENGTH_SHORT).show()
+        }
     }
     
     private fun validatePasswordChange(current: String, new: String, confirm: String): Boolean {

@@ -105,4 +105,6 @@
     <string name="error_password_change_failed">Failed to change password. Please try again.</string>
     <string name="error_current_password_incorrect">Current password is incorrect</string>
     <string name="error_user_not_authenticated">User is not authenticated</string>
+    <string name="error_name_update_failed">Failed to update display name. Please try again.</string>
+    <string name="error_user_not_logged_in">User is not logged in</string>
 </resources>

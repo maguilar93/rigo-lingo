@@ -69,4 +69,6 @@
     <string name="error_password_change_failed">Échec de la modification du mot de passe. Veuillez réessayer.</string>
     <string name="error_current_password_incorrect">Le mot de passe actuel est incorrect</string>
     <string name="error_user_not_authenticated">L\'utilisateur n\'est pas authentifié</string>
+    <string name="error_name_update_failed">Échec de la mise à jour du nom d\'affichage. Veuillez réessayer.</string>
+    <string name="error_user_not_logged_in">L\'utilisateur n\'est pas connecté</string>
 </resources>
