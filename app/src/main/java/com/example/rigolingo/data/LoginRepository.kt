@@ -14,12 +14,11 @@ class LoginRepository(val dataSource: LoginDataSource) {
         private set
 
     val isLoggedIn: Boolean
-        get() = user != null
+        get() = dataSource.isLoggedIn()
 
     init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
+        // Check if user is already logged in and cache the user
+        user = dataSource.getCurrentUser()
     }
 
     fun logout() {
@@ -27,9 +26,19 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend fun login(username: String, password: String): Result<LoggedInUser> {
         // handle login
         val result = dataSource.login(username, password)
+
+        if (result is Result.Success) {
+            setLoggedInUser(result.data)
+        }
+
+        return result
+    }
+
+    suspend fun register(email: String, password: String, displayName: String): Result<LoggedInUser> {
+        val result = dataSource.register(email, password, displayName)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)

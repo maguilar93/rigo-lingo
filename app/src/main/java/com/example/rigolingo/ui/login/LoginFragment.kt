@@ -15,7 +15,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.rigolingo.databinding.FragmentLoginBinding
+import androidx.appcompat.app.AlertDialog
 
 import com.example.rigolingo.R
 
@@ -48,6 +50,7 @@ class LoginFragment : Fragment() {
         val passwordEditText = binding.password
         val loginButton = binding.login
         val loadingProgressBar = binding.loading
+        val signupText = binding.signupText
 
         loginViewModel.loginFormState.observe(
             viewLifecycleOwner,
@@ -71,6 +74,9 @@ class LoginFragment : Fragment() {
                 loadingProgressBar.visibility = View.GONE
                 loginResult.error?.let {
                     showLoginFailed(it)
+                }
+                loginResult.errorMessage?.let {
+                    showLoginFailedWithMessage(it)
                 }
                 loginResult.success?.let {
                     updateUiWithUser(it)
@@ -112,18 +118,62 @@ class LoginFragment : Fragment() {
                 passwordEditText.text.toString()
             )
         }
+        
+        signupText.setOnClickListener {
+            showRegistrationDialog()
+        }
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome) + model.displayName
-        // TODO : initiate successful logged in experience
         val appContext = context?.applicationContext ?: return
-        Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        Toast.makeText(appContext, welcome, Toast.LENGTH_SHORT).show()
+        
+        // Navigate to home screen
+        findNavController().navigate(
+            R.id.action_loginFragment_to_homeFragment
+        )
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showLoginFailedWithMessage(errorMessage: String) {
+        val appContext = context?.applicationContext ?: return
+        Toast.makeText(appContext, errorMessage, Toast.LENGTH_LONG).show()
+    }
+    
+    private fun showRegistrationDialog() {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_register, null)
+        val emailEditText = dialogView.findViewById<EditText>(R.id.email_edit_text)
+        val passwordEditText = dialogView.findViewById<EditText>(R.id.password_edit_text)
+        val displayNameEditText = dialogView.findViewById<EditText>(R.id.display_name_edit_text)
+        
+        AlertDialog.Builder(requireContext())
+            .setTitle("Create Account")
+            .setView(dialogView)
+            .setPositiveButton("Sign Up") { _, _ ->
+                val email = emailEditText.text.toString()
+                val password = passwordEditText.text.toString()
+                val displayName = displayNameEditText.text.toString()
+                
+                // Basic validation
+                when {
+                    email.isBlank() -> Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
+                    !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> Toast.makeText(context, "Please enter valid email", Toast.LENGTH_SHORT).show()
+                    password.isBlank() -> Toast.makeText(context, "Please enter password", Toast.LENGTH_SHORT).show()
+                    password.length < 6 -> Toast.makeText(context, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
+                    displayName.isBlank() -> Toast.makeText(context, "Please enter display name", Toast.LENGTH_SHORT).show()
+                    else -> {
+                        binding.loading.visibility = View.VISIBLE
+                        loginViewModel.register(email, password, displayName)
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onDestroyView() {
