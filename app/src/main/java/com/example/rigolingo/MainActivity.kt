@@ -133,7 +133,11 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.action_settings -> {
-                        android.widget.Toast.makeText(this, "Settings coming soon!", android.widget.Toast.LENGTH_SHORT).show()
+                        try {
+                            findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_homeFragment_to_settingsFragment)
+                        } catch (e: Exception) {
+                            android.widget.Toast.makeText(this, "Settings navigation error", android.widget.Toast.LENGTH_SHORT).show()
+                        }
                         true
                     }
                     R.id.action_logout -> {

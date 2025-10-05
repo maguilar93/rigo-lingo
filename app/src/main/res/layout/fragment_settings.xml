@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.profile.ProfileFragment">
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,12 +13,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Language Settings Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/language_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,19 +33,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_info_title"
+                    android:text="@string/language_settings_title"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="16dp"
                     android:textColor="?attr/colorOnSurface" />
 
-                <!-- Display Name -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginBottom="12dp">
+                    android:gravity="center_vertical">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -52,54 +54,27 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/label_display_name"
+                            android:text="@string/label_app_language"
                             android:textSize="12sp"
                             android:textColor="?attr/colorOnSurfaceVariant"
                             android:textAllCaps="true" />
 
                         <TextView
-                            android:id="@+id/profile_name_display"
+                            android:id="@+id/language_selection"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Maria Aguilar"
+                            tools:text="English"
                             android:textSize="16sp"
                             android:textColor="?attr/colorOnSurface"
                             android:layout_marginTop="4dp" />
 
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/edit_name_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/button_edit"
-                        style="@style/Widget.Material3.Button.TextButton" />
-
-                </LinearLayout>
-
-                <!-- Email -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginBottom="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_email"
-                        android:textSize="12sp"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:textAllCaps="true" />
-
-                    <TextView
-                        android:id="@+id/profile_email_display"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="maria@rigolingo.com"
-                        android:textSize="16sp"
-                        android:textColor="?attr/colorOnSurface"
-                        android:layout_marginTop="4dp" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_launcher_foreground"
+                        android:tint="?attr/colorOnSurfaceVariant" />
 
                 </LinearLayout>
 
@@ -123,24 +98,22 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/security_title"
+                    android:text="More Settings"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="16dp"
                     android:textColor="?attr/colorOnSurface" />
 
-                <Button
-                    android:id="@+id/change_password_button"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/button_change_password"
-                    style="@style/Widget.Material3.Button.OutlinedButton"
-                    android:drawableStart="@drawable/ic_launcher_foreground" />
+                    android:text="Additional settings will be available here in future updates."
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
 
     </LinearLayout>
 
