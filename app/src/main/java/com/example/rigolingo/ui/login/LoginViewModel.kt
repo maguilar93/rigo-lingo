@@ -3,9 +3,11 @@ package com.example.rigolingo.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import android.util.Patterns
 import com.example.rigolingo.data.LoginRepository
 import com.example.rigolingo.data.Result
+import kotlinx.coroutines.launch
 
 import com.example.rigolingo.R
 
@@ -18,14 +20,36 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     val loginResult: LiveData<LoginResult> = _loginResult
 
     fun login(username: String, password: String) {
-        // can be launched in a separate asynchronous job
-        val result = loginRepository.login(username, password)
+        viewModelScope.launch {
+            try {
+                val result = loginRepository.login(username, password)
 
-        if (result is Result.Success) {
-            _loginResult.value =
-                LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
-        } else {
-            _loginResult.value = LoginResult(error = R.string.login_failed)
+                if (result is Result.Success) {
+                    _loginResult.value =
+                        LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                } else if (result is Result.Error) {
+                    _loginResult.value = LoginResult(errorMessage = result.exception.message ?: "Login failed")
+                }
+            } catch (e: Exception) {
+                _loginResult.value = LoginResult(errorMessage = "Network error: ${e.message}")
+            }
+        }
+    }
+
+    fun register(email: String, password: String, displayName: String) {
+        viewModelScope.launch {
+            try {
+                val result = loginRepository.register(email, password, displayName)
+
+                if (result is Result.Success) {
+                    _loginResult.value =
+                        LoginResult(success = LoggedInUserView(displayName = result.data.displayName))
+                } else if (result is Result.Error) {
+                    _loginResult.value = LoginResult(errorMessage = result.exception.message ?: "Registration failed")
+                }
+            } catch (e: Exception) {
+                _loginResult.value = LoginResult(errorMessage = "Network error: ${e.message}")
+            }
         }
     }
 
@@ -39,7 +63,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder username validation check
     private fun isUserNameValid(username: String): Boolean {
         return if (username.contains("@")) {
             Patterns.EMAIL_ADDRESS.matcher(username).matches()
@@ -48,7 +71,6 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    // A placeholder password validation check
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 5
     }
