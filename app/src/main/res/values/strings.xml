@@ -49,14 +49,18 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="action_signup_prompt">Don\'t have an account? Sign up here</string>
     <string name="welcome">"Welcome!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="registration_failed">Registration failed</string>
     
     <!-- Avatar and Profile -->
     <string name="action_avatar">Avatar</string>
     <string name="action_profile">Profile</string>
+    <string name="action_view_profile">View Profile</string>
+    <string name="action_logout">Logout</string>
     
     <!-- Profile Screen -->
     <string name="profile_settings_title">Profile Settings</string>
@@ -97,8 +101,32 @@
     <string name="success_name_updated">Display name updated successfully</string>
     <string name="success_password_changed">Password changed successfully</string>
     
+    <!-- Messages -->
+    <string name="message_settings_coming_soon">Settings coming soon!</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_title">Welcome, %s!</string>
+    <string name="home_welcome_title_default">Welcome back!</string>
+    <string name="home_welcome_message">Ready to continue learning?</string>
+    <string name="home_day_streak">Day Streak</string>
+    <string name="home_total_xp">Total XP</string>
+    <string name="home_today_progress">Today\'s Progress</string>
+    <string name="home_daily_goal">Daily Goal</string>
+    <string name="home_daily_progress_format">%1$d / %2$d lessons</string>
+    <string name="home_level_format">🎯 Level %d</string>
+    <string name="home_join_date_format">Joined %s</string>
+    <string name="home_continue_learning">Continue Learning</string>
+    <string name="home_category_basics">Basics</string>
+    <string name="home_category_basics_desc">Hello, numbers, family</string>
+    <string name="home_category_basics_coming_soon">Basics lessons coming soon! 📚</string>
+    <string name="home_category_phrases">Phrases</string>
+    <string name="home_category_phrases_desc">Common expressions</string>
+    <string name="home_category_phrases_coming_soon">Phrases lessons coming soon! 💬</string>
+    <string name="home_profile_coming_soon">View full profile coming soon! 📝</string>
+
     <!-- Error Messages -->
     <string name="error_name_empty">Name cannot be empty</string>
+    <string name="error_profile_navigation">Profile navigation error</string>
     <string name="error_current_password_empty">Please enter your current password</string>
     <string name="error_password_too_short">Password must be at least 6 characters</string>
     <string name="error_passwords_dont_match">Passwords do not match</string>

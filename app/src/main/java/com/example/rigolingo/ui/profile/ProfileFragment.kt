@@ -13,7 +13,6 @@ import com.example.rigolingo.data.LoginDataSource
 import com.google.android.material.snackbar.Snackbar
 import com.example.rigolingo.R
 import com.google.firebase.auth.FirebaseAuth
-import java.util.Locale
 
 class ProfileFragment : Fragment() {
 
@@ -32,10 +31,9 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         setupUserInfo()
         setupClickListeners()
-        setupLanguageSpinner()
     }
     
     private fun setupUserInfo() {
@@ -44,7 +42,7 @@ class ProfileFragment : Fragment() {
             binding.profileNameDisplay.text = currentUser.displayName
             binding.profileEmailDisplay.text = getUserEmail()
             
-            (activity as? androidx.appcompat.app.AppCompatActivity)?.supportActionBar?.title = "Profile Settings"
+            (activity as? androidx.appcompat.app.AppCompatActivity)?.supportActionBar?.title = getString(R.string.profile_settings_title)
         }
     }
     
@@ -56,32 +54,12 @@ class ProfileFragment : Fragment() {
         binding.editNameButton.setOnClickListener {
             showEditNameDialog()
         }
-        
+
         binding.changePasswordButton.setOnClickListener {
             showChangePasswordDialog()
         }
     }
-    
-    private fun setupLanguageSpinner() {
-        val languages = arrayOf(
-            getString(R.string.language_english),
-            getString(R.string.language_french), 
-            getString(R.string.language_spanish)
-        )
-        
-        val languageCodes = arrayOf("en", "fr", "es")
-        val currentLanguage = getCurrentLanguage()
-        
-        val currentIndex = languageCodes.indexOf(currentLanguage)
-        if (currentIndex != -1) {
-            binding.languageSelection.text = languages[currentIndex]
-        }
-        
-        binding.languageCard.setOnClickListener {
-            showLanguageSelectionDialog(languages, languageCodes)
-        }
-    }
-    
+
     private fun showEditNameDialog() {
         val input = android.widget.EditText(requireContext())
         input.setText(binding.profileNameDisplay.text)
@@ -123,25 +101,7 @@ class ProfileFragment : Fragment() {
             .setNegativeButton(getString(R.string.button_cancel), null)
             .show()
     }
-    
-    private fun showLanguageSelectionDialog(languages: Array<String>, languageCodes: Array<String>) {
-        val currentLanguage = getCurrentLanguage()
-        var selectedIndex = languageCodes.indexOf(currentLanguage)
-        if (selectedIndex == -1) selectedIndex = 0
-        
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.dialog_select_language_title))
-            .setSingleChoiceItems(languages, selectedIndex) { _, which ->
-                selectedIndex = which
-            }
-            .setPositiveButton(getString(R.string.button_select)) { _, _ ->
-                changeLanguage(languageCodes[selectedIndex])
-                binding.languageSelection.text = languages[selectedIndex]
-            }
-            .setNegativeButton(getString(R.string.button_cancel), null)
-            .show()
-    }
-    
+
     private fun updateDisplayName(newName: String) {
         val user = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser
         if (user != null) {
@@ -202,27 +162,6 @@ class ProfileFragment : Fragment() {
         } else {
             Snackbar.make(binding.root, getString(R.string.error_user_not_authenticated), Snackbar.LENGTH_SHORT).show()
         }
-    }
-    
-    private fun getCurrentLanguage(): String {
-        val sharedPref = requireActivity().getSharedPreferences("app_settings", android.content.Context.MODE_PRIVATE)
-        return sharedPref.getString("language", Locale.getDefault().language) ?: "en"
-    }
-    
-    private fun changeLanguage(languageCode: String) {
-        val sharedPref = requireActivity().getSharedPreferences("app_settings", android.content.Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("language", languageCode)
-            apply()
-        }
-        
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        val config = requireContext().resources.configuration
-        config.setLocale(locale)
-        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
-        
-        requireActivity().recreate()
     }
 
     override fun onDestroyView() {

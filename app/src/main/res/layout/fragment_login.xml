@@ -78,7 +78,7 @@
         android:id="@+id/signup_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't have an account? Sign up here"
+        android:text="@string/action_signup_prompt"
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="?attr/colorPrimary"
