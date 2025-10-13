@@ -43,22 +43,22 @@ class HomeFragment : Fragment() {
     private fun setupUserInfo() {
         val currentUser = loginRepository.user
         if (currentUser != null) {
-            binding.welcomeText.text = "Ready to continue learning?"
-            (activity as? AppCompatActivity)?.supportActionBar?.title = "Welcome, ${currentUser.displayName}!"
-            
+            binding.welcomeText.text = getString(R.string.home_welcome_message)
+            (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.home_welcome_title, currentUser.displayName)
+
             setupProfileInfo(currentUser.displayName, getUserEmail())
         } else {
-            binding.welcomeText.text = "Ready to continue learning?"
-            (activity as? AppCompatActivity)?.supportActionBar?.title = "Welcome back!"
+            binding.welcomeText.text = getString(R.string.home_welcome_message)
+            (activity as? AppCompatActivity)?.supportActionBar?.title = getString(R.string.home_welcome_title_default)
             setupProfileInfo("User", "user@example.com")
         }
     }
     
     private fun setupProfileInfo(displayName: String, email: String) {
-        // TODO: Set profile information
         binding.profileDisplayName.text = displayName
         binding.profileEmail.text = email
-        binding.profileJoinDate.text = "Joined Sept 2025" 
+        binding.profileLevel.text = getString(R.string.home_level_format, 5)
+        binding.profileJoinDate.text = getString(R.string.home_join_date_format, "Sept 2025")
     }
     
     private fun getInitials(displayName: String): String {
@@ -79,23 +79,22 @@ class HomeFragment : Fragment() {
         }
         
         binding.basicsCard.setOnClickListener {
-            Snackbar.make(it, "Basics lessons coming soon! 📚", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, getString(R.string.home_category_basics_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
-        
+
         binding.phrasesCard.setOnClickListener {
-            Snackbar.make(it, "Phrases lessons coming soon! 💬", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, getString(R.string.home_category_phrases_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
-        
+
         binding.profileSectionCard.setOnClickListener {
-            Snackbar.make(it, "View full profile coming soon! 📝", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(it, getString(R.string.home_profile_coming_soon), Snackbar.LENGTH_SHORT).show()
         }
     }
     
     private fun setupMockData() {
-        // Mock data for demonstration - in a real app this would come from a database
         binding.streakCount.text = "5"
         binding.totalXp.text = "247"
-        binding.dailyProgress.text = "2 / 3 lessons"
+        binding.dailyProgress.text = getString(R.string.home_daily_progress_format, 2, 3)
         binding.progressBar.progress = 67
     }
     

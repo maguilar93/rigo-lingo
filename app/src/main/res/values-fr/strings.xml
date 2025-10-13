@@ -13,14 +13,18 @@
     <string name="prompt_password">Mot de passe</string>
     <string name="action_sign_in">Se connecter ou s\'inscrire</string>
     <string name="action_sign_in_short">Se connecter</string>
+    <string name="action_signup_prompt">Vous n\'avez pas de compte ? Inscrivez-vous ici</string>
     <string name="welcome">"Bienvenue !"</string>
     <string name="invalid_username">Nom d\'utilisateur non valide</string>
     <string name="invalid_password">Le mot de passe doit contenir plus de 5 caractères</string>
     <string name="login_failed">"Échec de la connexion"</string>
+    <string name="registration_failed">Échec de l\'inscription</string>
     
     <!-- Avatar and Profile -->
     <string name="action_avatar">Avatar</string>
     <string name="action_profile">Profil</string>
+    <string name="action_view_profile">Voir le profil</string>
+    <string name="action_logout">Déconnexion</string>
     
     <!-- Profile Screen -->
     <string name="profile_settings_title">Paramètres du Profil</string>
@@ -60,9 +64,33 @@
     <!-- Success Messages -->
     <string name="success_name_updated">Nom d\'affichage mis à jour avec succès</string>
     <string name="success_password_changed">Mot de passe changé avec succès</string>
-    
+
+    <!-- Messages -->
+    <string name="message_settings_coming_soon">Paramètres à venir !</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_title">Bienvenue, %s !</string>
+    <string name="home_welcome_title_default">Bon retour !</string>
+    <string name="home_welcome_message">Prêt à continuer l\'apprentissage ?</string>
+    <string name="home_day_streak">Série de jours</string>
+    <string name="home_total_xp">XP Total</string>
+    <string name="home_today_progress">Progrès d\'aujourd\'hui</string>
+    <string name="home_daily_goal">Objectif quotidien</string>
+    <string name="home_daily_progress_format">%1$d / %2$d leçons</string>
+    <string name="home_level_format">🎯 Niveau %d</string>
+    <string name="home_join_date_format">Inscrit en %s</string>
+    <string name="home_continue_learning">Continuer l\'apprentissage</string>
+    <string name="home_category_basics">Bases</string>
+    <string name="home_category_basics_desc">Salutations, nombres, famille</string>
+    <string name="home_category_basics_coming_soon">Leçons de base à venir ! 📚</string>
+    <string name="home_category_phrases">Phrases</string>
+    <string name="home_category_phrases_desc">Expressions courantes</string>
+    <string name="home_category_phrases_coming_soon">Leçons de phrases à venir ! 💬</string>
+    <string name="home_profile_coming_soon">Voir le profil complet à venir ! 📝</string>
+
     <!-- Error Messages -->
     <string name="error_name_empty">Le nom ne peut pas être vide</string>
+    <string name="error_profile_navigation">Erreur de navigation du profil</string>
     <string name="error_current_password_empty">Veuillez entrer votre mot de passe actuel</string>
     <string name="error_password_too_short">Le mot de passe doit contenir au moins 6 caractères</string>
     <string name="error_passwords_dont_match">Les mots de passe ne correspondent pas</string>

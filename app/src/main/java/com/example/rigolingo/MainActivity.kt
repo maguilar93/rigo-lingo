@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun addAvatarToActionBar(menu: Menu, user: com.example.rigolingo.data.model.LoggedInUser) {
         try {
-            val avatarItem = menu.add(0, 999, 0, "Profile")
+            val avatarItem = menu.add(0, 999, 0, getString(R.string.action_profile))
             
             val avatarView = createAvatarView(user.displayName ?: "User")
             avatarItem.setActionView(avatarView)
@@ -128,12 +128,12 @@ class MainActivity : AppCompatActivity() {
                         try {
                             findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_homeFragment_to_profileFragment)
                         } catch (e: Exception) {
-                            android.widget.Toast.makeText(this, "Profile navigation error", android.widget.Toast.LENGTH_SHORT).show()
+                            android.widget.Toast.makeText(this, getString(R.string.error_profile_navigation), android.widget.Toast.LENGTH_SHORT).show()
                         }
                         true
                     }
                     R.id.action_settings -> {
-                        android.widget.Toast.makeText(this, "Settings coming soon!", android.widget.Toast.LENGTH_SHORT).show()
+                        android.widget.Toast.makeText(this, getString(R.string.message_settings_coming_soon), android.widget.Toast.LENGTH_SHORT).show()
                         true
                     }
                     R.id.action_logout -> {
