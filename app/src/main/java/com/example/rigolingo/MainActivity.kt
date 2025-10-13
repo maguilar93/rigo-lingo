@@ -21,9 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Intentional lint error for testing
-        val unusedVariable = "This variable is never used"
-        val anotherUnusedVariable: String = "Testing lint checks"
+        // Intentional compilation error for testing
+        this is not valid kotlin code and will cause an error
 
         FirebaseApp.initializeApp(this)
 
