@@ -2,9 +2,7 @@ package com.example.rigolingo.data
 
 import com.example.rigolingo.data.model.LoggedInUser
 
-
 class LoginRepository(val dataSource: LoginDataSource) {
-
     var user: LoggedInUser? = null
         private set
 
@@ -20,7 +18,10 @@ class LoginRepository(val dataSource: LoginDataSource) {
         dataSource.logout()
     }
 
-    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend fun login(
+        username: String,
+        password: String,
+    ): Result<LoggedInUser> {
         val result = dataSource.login(username, password)
 
         if (result is Result.Success) {
@@ -30,7 +31,11 @@ class LoginRepository(val dataSource: LoginDataSource) {
         return result
     }
 
-    suspend fun register(email: String, password: String, displayName: String): Result<LoggedInUser> {
+    suspend fun register(
+        email: String,
+        password: String,
+        displayName: String,
+    ): Result<LoggedInUser> {
         val result = dataSource.register(email, password, displayName)
 
         if (result is Result.Success) {

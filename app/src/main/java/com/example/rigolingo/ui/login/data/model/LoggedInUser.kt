@@ -5,5 +5,5 @@ package com.example.rigolingo.ui.login.data.model
  */
 data class LoggedInUser(
     val userId: String,
-    val displayName: String
+    val displayName: String,
 )

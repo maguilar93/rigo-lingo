@@ -1,28 +1,23 @@
 package com.example.rigolingo.ui.login
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
-import androidx.core.widget.doAfterTextChanged
-import com.example.rigolingo.databinding.FragmentLoginBinding
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.rigolingo.R
+import com.example.rigolingo.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
-
     private lateinit var loginViewModel: LoginViewModel
     private var _binding: FragmentLoginBinding? = null
 
@@ -31,18 +26,20 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
-
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?,
+    ) {
         super.onViewCreated(view, savedInstanceState)
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        loginViewModel =
+            ViewModelProvider(this, LoginViewModelFactory())
+                .get(LoginViewModel::class.java)
 
         val usernameEditText = binding.username
         val passwordEditText = binding.password
@@ -63,7 +60,8 @@ class LoginFragment : Fragment() {
                 loginFormState.passwordError?.let {
                     passwordEditText.error = getString(it)
                 }
-            })
+            },
+        )
 
         loginViewModel.loginResult.observe(
             viewLifecycleOwner,
@@ -79,26 +77,27 @@ class LoginFragment : Fragment() {
                 loginResult.success?.let {
                     updateUiWithUser(it)
                 }
-            })
+            },
+        )
 
         usernameEditText.doAfterTextChanged {
             loginViewModel.loginDataChanged(
                 usernameEditText.text.toString(),
-                passwordEditText.text.toString()
+                passwordEditText.text.toString(),
             )
         }
-        
+
         passwordEditText.doAfterTextChanged {
             loginViewModel.loginDataChanged(
                 usernameEditText.text.toString(),
-                passwordEditText.text.toString()
+                passwordEditText.text.toString(),
             )
         }
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(
                     usernameEditText.text.toString(),
-                    passwordEditText.text.toString()
+                    passwordEditText.text.toString(),
                 )
             }
             false
@@ -108,10 +107,10 @@ class LoginFragment : Fragment() {
             loadingProgressBar.visibility = View.VISIBLE
             loginViewModel.login(
                 usernameEditText.text.toString(),
-                passwordEditText.text.toString()
+                passwordEditText.text.toString(),
             )
         }
-        
+
         signupText.setOnClickListener {
             showRegistrationDialog()
         }
@@ -121,14 +120,16 @@ class LoginFragment : Fragment() {
         val welcome = getString(R.string.welcome) + model.displayName
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_SHORT).show()
-        
+
         // Navigate to home screen
         findNavController().navigate(
-            R.id.action_loginFragment_to_homeFragment
+            R.id.action_loginFragment_to_homeFragment,
         )
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
+    private fun showLoginFailed(
+        @StringRes errorString: Int,
+    ) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
     }
@@ -137,13 +138,13 @@ class LoginFragment : Fragment() {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, errorMessage, Toast.LENGTH_LONG).show()
     }
-    
+
     private fun showRegistrationDialog() {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_register, null)
         val emailEditText = dialogView.findViewById<EditText>(R.id.email_edit_text)
         val passwordEditText = dialogView.findViewById<EditText>(R.id.password_edit_text)
         val displayNameEditText = dialogView.findViewById<EditText>(R.id.display_name_edit_text)
-        
+
         AlertDialog.Builder(requireContext())
             .setTitle("Create Account")
             .setView(dialogView)
@@ -151,10 +152,12 @@ class LoginFragment : Fragment() {
                 val email = emailEditText.text.toString()
                 val password = passwordEditText.text.toString()
                 val displayName = displayNameEditText.text.toString()
-                
+
                 when {
                     email.isBlank() -> Toast.makeText(context, "Please enter email", Toast.LENGTH_SHORT).show()
-                    !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> Toast.makeText(context, "Please enter valid email", Toast.LENGTH_SHORT).show()
+                    !android.util.Patterns.EMAIL_ADDRESS.matcher(
+                        email,
+                    ).matches() -> Toast.makeText(context, "Please enter valid email", Toast.LENGTH_SHORT).show()
                     password.isBlank() -> Toast.makeText(context, "Please enter password", Toast.LENGTH_SHORT).show()
                     password.length < 6 -> Toast.makeText(context, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show()
                     displayName.isBlank() -> Toast.makeText(context, "Please enter display name", Toast.LENGTH_SHORT).show()

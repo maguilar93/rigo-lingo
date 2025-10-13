@@ -48,6 +48,7 @@ jobs:
           path: |
             app/build/reports/lint-results-*.html
             app/build/reports/lint-results-*.xml
+            app/build/reports/lint-results-*.txt
       
       - name: Comment Lint Results on PR
         if: failure() && github.event_name == 'pull_request'
@@ -55,14 +56,26 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const lintReport = 'app/build/reports/lint-results-debug.txt';
-            if (fs.existsSync(lintReport)) {
-              const content = fs.readFileSync(lintReport, 'utf8');
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: `## ❌ Lint Check Failed\n\n\`\`\`\n${content.slice(0, 60000)}\n\`\`\`\n\nPlease fix the lint errors before merging.`
-              });
+            const path = require('path');
+            
+            const MAX_COMMENT_LENGTH = 60000;
+            
+            let reportContent = '';
+            const txtReport = 'app/build/reports/lint-results-debug.txt';
+            const htmlReport = 'app/build/reports/lint-results-debug.html';
+            
+            if (fs.existsSync(txtReport)) {
+              reportContent = fs.readFileSync(txtReport, 'utf8');
+            } else if (fs.existsSync(htmlReport)) {
+              reportContent = '❌ Lint check failed! Download the HTML report from the Actions artifacts for details.';
+            } else {
+              reportContent = '❌ Lint check failed! Check the workflow logs for details.';
             }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ❌ Lint Check Failed\n\n\`\`\`\n${reportContent.slice(0, MAX_COMMENT_LENGTH)}\n\`\`\`\n\nPlease fix the lint errors before merging.\n\n📊 View detailed reports in the [workflow artifacts](https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}).`
+            });
 

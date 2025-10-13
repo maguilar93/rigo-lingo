@@ -1,25 +1,26 @@
 package com.example.rigolingo.ui.login
 
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import android.util.Patterns
+import com.example.rigolingo.R
 import com.example.rigolingo.data.LoginRepository
 import com.example.rigolingo.data.Result
 import kotlinx.coroutines.launch
 
-import com.example.rigolingo.R
-
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
-
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
 
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    fun login(username: String, password: String) {
+    fun login(
+        username: String,
+        password: String,
+    ) {
         viewModelScope.launch {
             try {
                 val result = loginRepository.login(username, password)
@@ -36,7 +37,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    fun register(email: String, password: String, displayName: String) {
+    fun register(
+        email: String,
+        password: String,
+        displayName: String,
+    ) {
         viewModelScope.launch {
             try {
                 val result = loginRepository.register(email, password, displayName)
@@ -53,7 +58,10 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         }
     }
 
-    fun loginDataChanged(username: String, password: String) {
+    fun loginDataChanged(
+        username: String,
+        password: String,
+    ) {
         if (!isUserNameValid(username)) {
             _loginForm.value = LoginFormState(usernameError = R.string.invalid_username)
         } else if (!isPasswordValid(password)) {

@@ -1,0 +1,4 @@
+[*.{kt,kts}]
+# Allow underscore prefix for private backing properties (Android convention)
+ktlint_standard_property-naming = disabled
+

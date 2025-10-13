@@ -9,19 +9,22 @@ import kotlinx.coroutines.tasks.await
 import java.io.IOException
 
 class LoginDataSource {
-
     private val firebaseAuth = FirebaseAuth.getInstance()
 
-    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+    suspend fun login(
+        username: String,
+        password: String,
+    ): Result<LoggedInUser> {
         try {
             val authResult = firebaseAuth.signInWithEmailAndPassword(username, password).await()
             val firebaseUser = authResult.user
-            
+
             return if (firebaseUser != null) {
-                val loggedInUser = LoggedInUser(
-                    userId = firebaseUser.uid,
-                    displayName = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "User"
-                )
+                val loggedInUser =
+                    LoggedInUser(
+                        userId = firebaseUser.uid,
+                        displayName = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "User",
+                    )
                 Result.Success(loggedInUser)
             } else {
                 Result.Error(IOException("Authentication failed: User is null"))
@@ -35,22 +38,28 @@ class LoginDataSource {
         }
     }
 
-    suspend fun register(email: String, password: String, displayName: String): Result<LoggedInUser> {
+    suspend fun register(
+        email: String,
+        password: String,
+        displayName: String,
+    ): Result<LoggedInUser> {
         try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = authResult.user
-            
+
             return if (firebaseUser != null) {
-                val profileUpdates = com.google.firebase.auth.UserProfileChangeRequest.Builder()
-                    .setDisplayName(displayName)
-                    .build()
-                
+                val profileUpdates =
+                    com.google.firebase.auth.UserProfileChangeRequest.Builder()
+                        .setDisplayName(displayName)
+                        .build()
+
                 firebaseUser.updateProfile(profileUpdates).await()
-                
-                val loggedInUser = LoggedInUser(
-                    userId = firebaseUser.uid,
-                    displayName = displayName
-                )
+
+                val loggedInUser =
+                    LoggedInUser(
+                        userId = firebaseUser.uid,
+                        displayName = displayName,
+                    )
                 Result.Success(loggedInUser)
             } else {
                 Result.Error(IOException("Registration failed: User is null"))
@@ -77,8 +86,10 @@ class LoginDataSource {
         return if (firebaseUser != null) {
             LoggedInUser(
                 userId = firebaseUser.uid,
-                displayName = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "User"
+                displayName = firebaseUser.displayName ?: firebaseUser.email?.substringBefore("@") ?: "User",
             )
-        } else null
+        } else {
+            null
+        }
     }
 }
