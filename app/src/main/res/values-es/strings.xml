@@ -3,8 +3,6 @@
     <string name="action_settings">Configuración</string>
     <!-- Strings used for fragments for navigation -->
     <string name="login_fragment_label">Fragmento de Inicio de Sesión</string>
-    <string name="first_fragment_label">Primer Fragmento</string>
-    <string name="second_fragment_label">Segundo Fragmento</string>
     <string name="next">Siguiente</string>
     <string name="previous">Anterior</string>
 

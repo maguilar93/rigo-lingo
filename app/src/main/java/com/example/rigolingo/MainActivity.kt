@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,7 +13,6 @@ import com.example.rigolingo.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -58,18 +56,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addAvatarToActionBar(menu: Menu, user: com.example.rigolingo.data.model.LoggedInUser) {
+    private fun addAvatarToActionBar(
+        menu: Menu,
+        user: com.example.rigolingo.data.model.LoggedInUser,
+    ) {
         try {
             val avatarItem = menu.add(0, 999, 0, getString(R.string.action_profile))
-            
+
             val avatarView = createAvatarView(user.displayName ?: "User")
             avatarItem.setActionView(avatarView)
             avatarItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            
+
             avatarView?.setOnClickListener {
                 showProfileMenu(it)
             }
-        } catch (e: Exception) {   
+        } catch (e: Exception) {
             menuInflater.inflate(R.menu.menu_main, menu)
         }
     }
@@ -78,30 +79,33 @@ class MainActivity : AppCompatActivity() {
         return try {
             val avatarSize = (40 * resources.displayMetrics.density).toInt()
             val marginEnd = (12 * resources.displayMetrics.density).toInt()
-            
-            val cardView = com.google.android.material.card.MaterialCardView(this).apply {
-                val params = android.view.ViewGroup.MarginLayoutParams(avatarSize, avatarSize)
-                params.marginEnd = marginEnd
-                layoutParams = params
-                radius = (avatarSize / 2).toFloat()
-                cardElevation = 2 * resources.displayMetrics.density
-                setCardBackgroundColor(0xFF6200EE.toInt())
-                isClickable = true
-                isFocusable = true
-            }
-            
-            val textView = android.widget.TextView(this).apply {
-                text = getInitials(displayName)
-                textSize = 14f
-                setTextColor(android.graphics.Color.WHITE)
-                gravity = android.view.Gravity.CENTER
-                typeface = android.graphics.Typeface.DEFAULT_BOLD
-                layoutParams = android.view.ViewGroup.LayoutParams(
-                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                    android.view.ViewGroup.LayoutParams.MATCH_PARENT
-                )
-            }
-            
+
+            val cardView =
+                com.google.android.material.card.MaterialCardView(this).apply {
+                    val params = android.view.ViewGroup.MarginLayoutParams(avatarSize, avatarSize)
+                    params.marginEnd = marginEnd
+                    layoutParams = params
+                    radius = (avatarSize / 2).toFloat()
+                    cardElevation = 2 * resources.displayMetrics.density
+                    setCardBackgroundColor(0xFF6200EE.toInt())
+                    isClickable = true
+                    isFocusable = true
+                }
+
+            val textView =
+                android.widget.TextView(this).apply {
+                    text = getInitials(displayName)
+                    textSize = 14f
+                    setTextColor(android.graphics.Color.WHITE)
+                    gravity = android.view.Gravity.CENTER
+                    typeface = android.graphics.Typeface.DEFAULT_BOLD
+                    layoutParams =
+                        android.view.ViewGroup.LayoutParams(
+                            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        )
+                }
+
             cardView.addView(textView)
             cardView
         } catch (e: Exception) {
@@ -121,19 +125,27 @@ class MainActivity : AppCompatActivity() {
         try {
             val popupMenu = androidx.appcompat.widget.PopupMenu(this, anchor)
             popupMenu.menuInflater.inflate(R.menu.profile_menu, popupMenu.menu)
-            
+
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_profile -> {
                         try {
                             findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_homeFragment_to_profileFragment)
                         } catch (e: Exception) {
-                            android.widget.Toast.makeText(this, getString(R.string.error_profile_navigation), android.widget.Toast.LENGTH_SHORT).show()
+                            android.widget.Toast.makeText(
+                                this,
+                                getString(R.string.error_profile_navigation),
+                                android.widget.Toast.LENGTH_SHORT,
+                            ).show()
                         }
                         true
                     }
                     R.id.action_settings -> {
-                        android.widget.Toast.makeText(this, getString(R.string.message_settings_coming_soon), android.widget.Toast.LENGTH_SHORT).show()
+                        android.widget.Toast.makeText(
+                            this,
+                            getString(R.string.message_settings_coming_soon),
+                            android.widget.Toast.LENGTH_SHORT,
+                        ).show()
                         true
                     }
                     R.id.action_logout -> {
@@ -143,7 +155,7 @@ class MainActivity : AppCompatActivity() {
                     else -> false
                 }
             }
-            
+
             popupMenu.show()
         } catch (e: Exception) {
             logout()
@@ -154,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         val loginDataSource = com.example.rigolingo.data.LoginDataSource()
         val loginRepository = com.example.rigolingo.data.LoginRepository(loginDataSource)
         loginRepository.logout()
-        
+
         findNavController(R.id.nav_host_fragment_content_main).navigate(R.id.action_homeFragment_to_animatedLoginFragment)
     }
 
@@ -169,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) ||
+            super.onSupportNavigateUp()
     }
 }
