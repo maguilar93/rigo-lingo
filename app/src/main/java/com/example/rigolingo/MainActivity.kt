@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        // Intentional compilation error for testing
-        this is not valid kotlin code and will cause an error
 
         FirebaseApp.initializeApp(this)
 
